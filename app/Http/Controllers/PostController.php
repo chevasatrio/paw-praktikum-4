@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use App\Models\Post;
+
 class PostController extends Controller
 {
     // Data dummy untuk contoh
@@ -11,7 +13,7 @@ class PostController extends Controller
                 'id' => 1,
                 'title' => 'Belajar Laravel',
                 'content' => 'Laravel adalah framework PHP yang populer.',
-                'author' => 'Admin',
+                'user_id' => 'Admin',
                 'created_at' => '2024-01-15'
             ],
             [
@@ -19,7 +21,7 @@ class PostController extends Controller
                 'title' => 'Mengenal Blade Template',
                 'content' => 'Blade adalah template engine bawaan
 Laravel.',
-                'author' => 'Admin',
+                'user_id' => 'Admin',
                 'created_at' => '2024-01-16'
             ]
         ];
@@ -28,6 +30,7 @@ Laravel.',
     public function index()
     {
         $posts = $this->getPosts();
+        $posts = Post::latest()->get();
         return view('posts.index', compact('posts'));
     }
     // Menampilkan form create
@@ -38,14 +41,18 @@ Laravel.',
     // Menyimpan post baru (contoh validasi)
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|max:255',
+        $validated = $request->validate([
+            'title' => 'required',
             'content' => 'required',
-            'author' => 'required|max:100'
+            'user_id' => 'required',
         ]);
-        // Di sini nanti akan menyimpan ke database
-        return redirect()->route('posts.index')
-            ->with('success', 'Post berhasil dibuat!');
+
+        // HARDCODE SEMENTARA AGAR TIDAK ERROR
+        // $validated['user_id'] = 1;
+
+        // Post::create($validated);
+
+        return redirect()->route('posts.index')->with('success', 'Post berhasil dibuat!');
     }
     // Menampilkan detail post
     public function show($id)

@@ -1,3 +1,12 @@
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 @extends('layouts.app')
 Halaman 10 dari 17
 @section('title', 'Tulis Post Baru')
@@ -13,9 +22,9 @@ Halaman 10 dari 17
             @enderror
         </div>
         <div class="form-group">
-            <label for="author">Penulis</label>
-            <input type="text" name="author" id="author" value="{{ old('author') }}" required>
-            @error('author')
+            <label for="user_id">Penulis</label>
+            <input type="text" name="user_id" id="user_id" value="{{ old('user_id') }}" required>
+            @error('user_id')
                 <span class="error">{{ $message }}</span>
             @enderror
         </div>
@@ -26,6 +35,6 @@ Halaman 10 dari 17
                 <span class="error">{{ $message }}</span>
             @enderror
         </div>
-        <button type="submit" class="btn">Simpan Post</button>
+        <button type=   "submit" class="btn">Simpan Post</button>
     </form>
 @endsection
